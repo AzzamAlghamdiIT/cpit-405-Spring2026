@@ -1,0 +1,15 @@
+/* Part 1 - Descendant Selector */
+
+.image-preview img {
+    width: 300px;
+    padding: 20px;
+
+    /* Multi-colored border */
+    border-top: 25px solid #87CEEB;      /* Blue */
+    border-right: 25px solid #F4A6B5;    /* Pink */
+    border-bottom: 25px solid #90EE90;   /* Green */
+    border-left: 25px solid #F5DEB3;     /* Beige */
+
+    display: block;
+    margin: 20px auto;
+}
