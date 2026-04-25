@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 7 - Unsplash API</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Unsplash Image Search</h1>
+
+<input type="text" id="searchInput" placeholder="Search images...">
+<br><br>
+
+<button onclick="searchXHR()">Search using XHR</button>
+<button onclick="searchFetch()">Search using Fetch</button>
+<button onclick="searchAsync()">Search using Async/Await</button>
+
+<p id="message"></p>
+<div id="images"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
