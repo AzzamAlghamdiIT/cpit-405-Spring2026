@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Explorer - Azzam Alghamdi</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .search-bar input {
+            flex: 1;
+            padding: 13px 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #fdfdfd;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .search-bar input:focus { border-color: #00a8ff; }
+        .search-bar button {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .search-bar button:hover { background: #334155; }
+        .results-info {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+        .countries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 18px;
+        }
+        .country-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: default;
+        }
+        .country-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        }
+        .country-flag {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            display: block;
+        }
+        .country-info {
+            padding: 12px;
+        }
+        .country-name {
+            font-weight: bold;
+            font-size: 0.95rem;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+        .country-detail {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 3px;
+        }
+        .country-detail span { color: #1e293b; }
+        .status-msg {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+            font-size: 1rem;
+        }
+        .status-msg.error { color: #dc2626; }
+        .loading-spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid #e2e8f0;
+            border-top-color: #00a8ff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin-bottom: 10px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+        <h1>Azzam Alghamdi</h1>
+        <p>IT Student | Security Enthusiast</p>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="labs.html">Labs</a></li>
+            <li><a href="myworks.html">My Works</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container">
+    <div class="main-layout">
+
+        <section class="content-area">
+            <div class="card">
+                <h2>🌍 Country Explorer</h2>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search for a country..." />
+                    <button onclick="searchCountry()">Search</button>
+                </div>
+                <div class="results-info" id="resultsInfo"></div>
+                <div id="resultsArea">
+                    <div class="status-msg">Type a country name above and press Search.</div>
+                </div>
+            </div>
+        </section>
+
+        <aside class="sidebar">
+            <div class="profile-card">
+                <h3>About This App</h3>
+                <p>Search and explore countries using the <strong>REST Countries API</strong>.</p>
+                <p>Displays flag, capital, region, and population for each result.</p>
+                <p style="font-size:0.85rem; color:#64748b;">Data fetched live from<br>restcountries.com</p>
+                <hr>
+                <div class="jump-links">
+                    <a href="myworks.html" class="nav-btn">← My Works</a>
+                    <a href="app1.html" class="nav-btn">View App 1</a>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2026 Azzam Alghamdi - CPIT 405 Portfolio</p>
+</footer>
+
+<script>
+    const searchInput = document.getElementById('searchInput');
+    const resultsArea = document.getElementById('resultsArea');
+    const resultsInfo = document.getElementById('resultsInfo');
+
+    // Allow pressing Enter to search
+    searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') searchCountry();
+    });
+
+    function searchCountry() {
+        const query = searchInput.value.trim();
+        if (!query) {
+            showMessage('Please enter a country name.', false);
+            return;
+        }
+        showLoading();
+        fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(query)}`)
+            .then(res => {
+                if (!res.ok) throw new Error('No countries found. Try a different name.');
+                return res.json();
+            })
+            .then(data => {
+                displayResults(data);
+            })
+            .catch(err => {
+                showMessage(err.message, true);
+            });
+    }
+
+    function showLoading() {
+        resultsInfo.textContent = '';
+        resultsArea.innerHTML = `
+            <div class="status-msg">
+                <div class="loading-spinner"></div><br>
+                Searching...
+            </div>`;
+    }
+
+    function showMessage(msg, isError) {
+        resultsInfo.textContent = '';
+        resultsArea.innerHTML = `<div class="status-msg ${isError ? 'error' : ''}">${msg}</div>`;
+    }
+
+    function displayResults(countries) {
+        resultsInfo.textContent = `${countries.length} result${countries.length !== 1 ? 's' : ''} found`;
+        const grid = document.createElement('div');
+        grid.className = 'countries-grid';
+
+        countries.forEach(c => {
+            const capital = c.capital ? c.capital[0] : 'N/A';
+            const region = c.region || 'N/A';
+            const pop = c.population ? c.population.toLocaleString() : 'N/A';
+            const language = c.languages ? Object.values(c.languages)[0] : 'N/A';
+            const flagUrl = c.flags ? c.flags.png : '';
+            const flagAlt = c.flags ? c.flags.alt || c.name.common + ' flag' : '';
+
+            const card = document.createElement('div');
+            card.className = 'country-card';
+            card.innerHTML = `
+                <img class="country-flag" src="${flagUrl}" alt="${flagAlt}" loading="lazy">
+                <div class="country-info">
+                    <div class="country-name">${c.name.common}</div>
+                    <div class="country-detail">🏛 <span>${capital}</span></div>
+                    <div class="country-detail">🌐 <span>${region}</span></div>
+                    <div class="country-detail">👥 <span>${pop}</span></div>
+                    <div class="country-detail">🗣 <span>${language}</span></div>
+                </div>`;
+            grid.appendChild(card);
+        });
+
+        resultsArea.innerHTML = '';
+        resultsArea.appendChild(grid);
+    }
+</script>
+
+</body>
+</html>

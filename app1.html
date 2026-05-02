@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Quiz - Azzam Alghamdi</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .quiz-container {
+            max-width: 700px;
+        }
+        .question-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .progress-bar-wrap {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 8px;
+            margin-bottom: 25px;
+        }
+        .progress-bar-fill {
+            background: #00a8ff;
+            height: 8px;
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .option-btn {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: #f8fafc;
+            cursor: pointer;
+            font-size: 1rem;
+            text-align: left;
+            color: #1e293b;
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover:not(:disabled) {
+            border-color: #00a8ff;
+            background: #e0f4ff;
+            transform: translateX(4px);
+        }
+        .option-btn.correct {
+            background: #dcfce7;
+            border-color: #16a34a;
+            color: #15803d;
+        }
+        .option-btn.wrong {
+            background: #fee2e2;
+            border-color: #dc2626;
+            color: #b91c1c;
+        }
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+        .feedback-msg {
+            margin-top: 15px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+        }
+        .feedback-msg.show { display: block; }
+        .feedback-msg.correct { background: #dcfce7; color: #15803d; }
+        .feedback-msg.wrong { background: #fee2e2; color: #b91c1c; }
+        .next-btn {
+            margin-top: 18px;
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 13px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: none;
+        }
+        .next-btn.show { display: inline-block; }
+        .next-btn:hover { background: #334155; }
+        .score-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            text-align: center;
+            display: none;
+        }
+        .score-card.show { display: block; }
+        .score-number {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #00a8ff;
+        }
+        .score-label { font-size: 1.1rem; color: #64748b; margin-bottom: 25px; }
+        .score-msg { font-size: 1.3rem; font-weight: bold; color: #1e293b; margin-bottom: 25px; }
+        .restart-btn {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 13px 35px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .restart-btn:hover { background: #334155; }
+        .start-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .start-card h2 { color: #1e293b; font-size: 1.8rem; margin-bottom: 15px; }
+        .start-card p { color: #64748b; margin-bottom: 30px; font-size: 1.05rem; }
+        .start-btn {
+            background: #00a8ff;
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .start-btn:hover { background: #0090d9; }
+        .high-score-info {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+        .high-score-info span { color: #00a8ff; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+        <h1>Azzam Alghamdi</h1>
+        <p>IT Student | Security Enthusiast</p>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="labs.html">Labs</a></li>
+            <li><a href="myworks.html">My Works</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container">
+    <div class="main-layout">
+
+        <section class="content-area quiz-container">
+
+            <!-- Start Screen -->
+            <div class="start-card" id="startScreen">
+                <h2>🧠 Tech & IT Quiz</h2>
+                <p>Test your knowledge in IT, cybersecurity, and web technologies.<br>10 questions — how many can you get right?</p>
+                <button class="start-btn" onclick="startQuiz()">Start Quiz</button>
+                <div class="high-score-info">
+                    Your Best Score: <span id="highScoreDisplay">0 / 10</span>
+                </div>
+            </div>
+
+            <!-- Quiz Screen -->
+            <div id="quizScreen" style="display:none;">
+                <div class="question-card">
+                    <div class="question-header">
+                        <span id="questionCounter">Question 1 of 10</span>
+                        <span id="scoreCounter">Score: 0</span>
+                    </div>
+                    <div class="progress-bar-wrap">
+                        <div class="progress-bar-fill" id="progressBar" style="width:10%"></div>
+                    </div>
+                    <div class="question-text" id="questionText"></div>
+                    <ul class="options-list" id="optionsList"></ul>
+                    <div class="feedback-msg" id="feedbackMsg"></div>
+                    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next Question →</button>
+                </div>
+            </div>
+
+            <!-- Result Screen -->
+            <div class="score-card" id="scoreScreen">
+                <div class="score-number" id="finalScore"></div>
+                <div class="score-label">out of 10</div>
+                <div class="score-msg" id="scoreMsg"></div>
+                <button class="restart-btn" onclick="restartQuiz()">Try Again</button>
+            </div>
+
+        </section>
+
+        <aside class="sidebar">
+            <div class="profile-card">
+                <h3>About This App</h3>
+                <p>A 10-question quiz covering IT, cybersecurity, and web development topics.</p>
+                <p>Your high score is saved in your browser using <strong>localStorage</strong>.</p>
+                <hr>
+                <div class="jump-links">
+                    <a href="myworks.html" class="nav-btn">← My Works</a>
+                    <a href="app2.html" class="nav-btn">View App 2</a>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2026 Azzam Alghamdi - CPIT 405 Portfolio</p>
+</footer>
+
+<script>
+    const questions = [
+        {
+            q: "What does HTML stand for?",
+            options: ["HyperText Markup Language", "HighText Machine Language", "HyperText and links Markup Language", "Hyper Transfer Markup Language"],
+            answer: 0
+        },
+        {
+            q: "Which protocol is used to securely browse websites?",
+            options: ["HTTP", "FTP", "HTTPS", "SMTP"],
+            answer: 2
+        },
+        {
+            q: "What does CSS stand for?",
+            options: ["Computer Style Sheets", "Cascading Style Sheets", "Creative Style Sheets", "Colorful Style Sheets"],
+            answer: 1
+        },
+        {
+            q: "Which of the following is NOT a JavaScript data type?",
+            options: ["String", "Boolean", "Float", "Undefined"],
+            answer: 2
+        },
+        {
+            q: "What does 'SQL' stand for?",
+            options: ["Structured Question Language", "Simple Query Language", "Structured Query Language", "Sequential Query Logic"],
+            answer: 2
+        },
+        {
+            q: "Which of the following is a cybersecurity attack that tricks users into revealing sensitive information?",
+            options: ["DDoS", "Phishing", "Brute Force", "SQL Injection"],
+            answer: 1
+        },
+        {
+            q: "What does 'IP' stand for in networking?",
+            options: ["Internet Protocol", "Internal Process", "Integrated Program", "Input Port"],
+            answer: 0
+        },
+        {
+            q: "Which HTML tag is used to link an external CSS file?",
+            options: ["<style>", "<script>", "<link>", "<css>"],
+            answer: 2
+        },
+        {
+            q: "What is the main purpose of a firewall?",
+            options: ["Speed up internet", "Monitor hardware temperature", "Block unauthorized network access", "Encrypt files"],
+            answer: 2
+        },
+        {
+            q: "Which JavaScript method is used to fetch data from an API?",
+            options: ["get()", "fetch()", "request()", "load()"],
+            answer: 1
+        }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+    let answered = false;
+
+    function loadHighScore() {
+        const hs = localStorage.getItem('quizHighScore') || 0;
+        document.getElementById('highScoreDisplay').textContent = hs + ' / 10';
+    }
+
+    function startQuiz() {
+        currentQ = 0;
+        score = 0;
+        answered = false;
+        document.getElementById('startScreen').style.display = 'none';
+        document.getElementById('scoreScreen').classList.remove('show');
+        document.getElementById('quizScreen').style.display = 'block';
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        answered = false;
+        const q = questions[currentQ];
+        document.getElementById('questionCounter').textContent = `Question ${currentQ + 1} of ${questions.length}`;
+        document.getElementById('scoreCounter').textContent = `Score: ${score}`;
+        document.getElementById('progressBar').style.width = `${((currentQ + 1) / questions.length) * 100}%`;
+        document.getElementById('questionText').textContent = q.q;
+
+        const list = document.getElementById('optionsList');
+        list.innerHTML = '';
+        q.options.forEach((opt, i) => {
+            const li = document.createElement('li');
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.textContent = opt;
+            btn.onclick = () => selectAnswer(i, btn);
+            li.appendChild(btn);
+            list.appendChild(li);
+        });
+
+        const feedback = document.getElementById('feedbackMsg');
+        feedback.className = 'feedback-msg';
+        feedback.textContent = '';
+        document.getElementById('nextBtn').classList.remove('show');
+    }
+
+    function selectAnswer(index, btn) {
+        if (answered) return;
+        answered = true;
+
+        const q = questions[currentQ];
+        const allBtns = document.querySelectorAll('.option-btn');
+        allBtns.forEach(b => b.disabled = true);
+
+        const feedback = document.getElementById('feedbackMsg');
+
+        if (index === q.answer) {
+            btn.classList.add('correct');
+            score++;
+            feedback.textContent = '✅ Correct!';
+            feedback.className = 'feedback-msg correct show';
+        } else {
+            btn.classList.add('wrong');
+            allBtns[q.answer].classList.add('correct');
+            feedback.textContent = `❌ Wrong! The correct answer is: "${q.options[q.answer]}"`;
+            feedback.className = 'feedback-msg wrong show';
+        }
+
+        document.getElementById('scoreCounter').textContent = `Score: ${score}`;
+        document.getElementById('nextBtn').classList.add('show');
+
+        if (currentQ === questions.length - 1) {
+            document.getElementById('nextBtn').textContent = 'See Results 🎯';
+        } else {
+            document.getElementById('nextBtn').textContent = 'Next Question →';
+        }
+    }
+
+    function nextQuestion() {
+        currentQ++;
+        if (currentQ < questions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        document.getElementById('quizScreen').style.display = 'none';
+        const scoreScreen = document.getElementById('scoreScreen');
+        scoreScreen.classList.add('show');
+        document.getElementById('finalScore').textContent = score;
+
+        let msg = '';
+        if (score === 10) msg = '🏆 Perfect Score! Outstanding!';
+        else if (score >= 8) msg = '🌟 Excellent! Great knowledge!';
+        else if (score >= 6) msg = '👍 Good job! Keep learning!';
+        else if (score >= 4) msg = '📚 Keep studying, you\'ll get there!';
+        else msg = '💪 Don\'t give up! Try again!';
+
+        document.getElementById('scoreMsg').textContent = msg;
+
+        const savedHigh = parseInt(localStorage.getItem('quizHighScore') || 0);
+        if (score > savedHigh) {
+            localStorage.setItem('quizHighScore', score);
+        }
+    }
+
+    function restartQuiz() {
+        document.getElementById('scoreScreen').classList.remove('show');
+        document.getElementById('startScreen').style.display = 'block';
+        loadHighScore();
+    }
+
+    // Load high score on page load
+    loadHighScore();
+</script>
+
+</body>
+</html>

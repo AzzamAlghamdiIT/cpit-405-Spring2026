@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Works - Azzam Alghamdi</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 10px;
+        }
+        .work-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .work-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .work-card-banner {
+            height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+        }
+        .banner-blue { background: linear-gradient(135deg, #0f172a, #1e40af); }
+        .banner-teal { background: linear-gradient(135deg, #0f4c75, #00a8ff); }
+        .work-card-body {
+            padding: 22px;
+        }
+        .work-tag {
+            display: inline-block;
+            background: #e0f4ff;
+            color: #0056b3;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+        .work-tag.api { background: #d1fae5; color: #065f46; }
+        .work-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        .work-desc {
+            color: #64748b;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .open-btn {
+            display: block;
+            text-align: center;
+            background: #0f172a;
+            color: white;
+            text-decoration: none;
+            padding: 11px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: background 0.3s;
+        }
+        .open-btn:hover { background: #334155; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+        <h1>Azzam Alghamdi</h1>
+        <p>IT Student | Security Enthusiast</p>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="labs.html">Labs</a></li>
+            <li><a href="myworks.html">My Works</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container">
+    <div class="main-layout">
+
+        <section class="content-area">
+            <div class="card">
+                <h2>My Works</h2>
+                <p style="color:#64748b; margin-bottom:25px;">JavaScript applications built as part of CPIT-405 Portfolio Assignment – Phase 2.</p>
+                <div class="works-grid">
+
+                    <div class="work-card">
+                        <div class="work-card-banner banner-blue">🧠</div>
+                        <div class="work-card-body">
+                            <span class="work-tag">JavaScript</span>
+                            <div class="work-title">Tech & IT Quiz</div>
+                            <div class="work-desc">An interactive 10-question quiz covering IT, cybersecurity, and web development. Your high score is saved in the browser using localStorage so it persists between visits.</div>
+                            <a href="app1.html" class="open-btn">Open App</a>
+                        </div>
+                    </div>
+
+                    <div class="work-card">
+                        <div class="work-card-banner banner-teal">🌍</div>
+                        <div class="work-card-body">
+                            <span class="work-tag api">JavaScript + API</span>
+                            <div class="work-title">Country Explorer</div>
+                            <div class="work-desc">Search and explore countries using the REST Countries public API. Displays the flag, capital, region, population, and language for each result found.</div>
+                            <a href="app2.html" class="open-btn">Open App</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <aside class="sidebar">
+            <div class="profile-card">
+                <h3>Quick Links</h3>
+                <div class="jump-links">
+                    <a href="Home.html" class="nav-btn">Home</a>
+                    <a href="labs.html" class="nav-btn">View Labs</a>
+                    <a href="contact.html" class="nav-btn">Contact Page</a>
+                    <a href="https://github.com/AzzamAlghamdiIT" target="_blank" class="nav-btn">GitHub Profile</a>
+                </div>
+                <hr>
+                <h3>Portfolio Links</h3>
+                <div class="jump-links">
+                    <a href="myworks.html" class="nav-btn">My Works</a>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2026 Azzam Alghamdi - CPIT 405 Portfolio</p>
+</footer>
+
+</body>
+</html>
