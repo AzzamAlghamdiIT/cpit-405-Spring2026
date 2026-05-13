@@ -32,6 +32,7 @@
         }
         .banner-blue { background: linear-gradient(135deg, #0f172a, #1e40af); }
         .banner-teal { background: linear-gradient(135deg, #0f4c75, #00a8ff); }
+        .banner-purple { background: linear-gradient(135deg, #4c1d95, #7c3aed); }
         .work-card-body {
             padding: 22px;
         }
@@ -46,6 +47,7 @@
             margin-bottom: 10px;
         }
         .work-tag.api { background: #d1fae5; color: #065f46; }
+        .work-tag.php { background: #ede9fe; color: #5b21b6; }
         .work-title {
             font-size: 1.2rem;
             font-weight: bold;
@@ -69,8 +71,23 @@
             font-weight: bold;
             font-size: 0.95rem;
             transition: background 0.3s;
+            margin-bottom: 8px;
         }
         .open-btn:hover { background: #334155; }
+        .repo-btn {
+            display: block;
+            text-align: center;
+            background: white;
+            color: #0f172a;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border: 2px solid #0f172a;
+            transition: all 0.3s;
+        }
+        .repo-btn:hover { background: #0f172a; color: white; }
     </style>
 </head>
 <body>
@@ -96,7 +113,7 @@
         <section class="content-area">
             <div class="card">
                 <h2>My Works</h2>
-                <p style="color:#64748b; margin-bottom:25px;">JavaScript applications built as part of CPIT-405 Portfolio Assignment – Phase 2.</p>
+                <p style="color:#64748b; margin-bottom:25px;">Web applications built as part of CPIT-405 Portfolio Assignments.</p>
                 <div class="works-grid">
 
                     <div class="work-card">
@@ -116,6 +133,17 @@
                             <div class="work-title">Country Explorer</div>
                             <div class="work-desc">Search and explore countries using the REST Countries public API. Displays the flag, capital, region, population, and language for each result found.</div>
                             <a href="app2.html" class="open-btn">Open App</a>
+                        </div>
+                    </div>
+
+                    <div class="work-card">
+                        <div class="work-card-banner banner-purple">🛒</div>
+                        <div class="work-card-body">
+                            <span class="work-tag php">PHP + SQLite</span>
+                            <div class="work-title">Product Management System</div>
+                            <div class="work-desc">A full CRUD web application for managing products. Built with PHP and SQLite, it supports adding, editing, deleting, and viewing products, plus a JSON API endpoint to fetch all products.</div>
+                            <a href="assignment3/index.php" class="open-btn">Open App</a>
+                            <a href="https://github.com/AzzamAlghamdiIT/cpit-405-Spring2026" target="_blank" class="repo-btn">View on GitHub</a>
                         </div>
                     </div>
 
